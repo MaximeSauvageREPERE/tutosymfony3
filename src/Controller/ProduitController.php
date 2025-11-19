@@ -6,6 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Produit;
 
 final class ProduitController extends AbstractController
 {
@@ -17,21 +24,63 @@ final class ProduitController extends AbstractController
             'produits' => $produits
         ]);
     }
+    #[Route('/produit/create', name: 'app_produit_create')]
+    public function create(Request $request): Response
+    {
+        $produit = new Produit();
+        $form = $this->createFormBuilder($produit)
+            ->add('nom', TextType::class, [
+                'label' => 'Nom du produit',
+            ])
+            ->add('description', TextType::class, [
+                'label' => 'Description',
+                'required' => false,
+            ])
+            ->add('prix', IntegerType::class, [
+                'label' => 'Prix',
+            ])
+            ->add('creationdate', DateType::class, [
+                'label' => 'Date de création',
+                'widget' => 'single_text',
+            ])
+            ->add('active', CheckboxType::class, [
+                'label' => 'Actif',
+                'required' => false,
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Créer le produit'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Ici, on pourrait persister le produit si besoin
+            // $entityManager = ...
+            // $entityManager->persist($produit);
+            // $entityManager->flush();
+            return new Response('Produit créé : ' . $produit->getNom());
+        }
+
+        return $this->render('produit/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/produit/test', name: 'app_produit_test')]
     public function test(EntityManagerInterface $entityManager): Response
     {
-        // Création de la catégorie
+        // 1. On crée d'abord la catégorie, car chaque produit doit y être rattaché
         $categorie = new \App\Entity\Category();
         $categorie->setNom('Catégorie Test');
         $categorie->setDescription('Catégorie de test pour les produits');
         $entityManager->persist($categorie);
 
-        // Création du tag commun
+        // 2. On crée un premier tag, qui sera associé au premier produit
         $tag = new \App\Entity\Tag();
         $tag->setNom('Tag Commun');
         $entityManager->persist($tag);
 
-        // Création du premier produit
+        // 3. On crée le premier produit, puis on l'associe à la catégorie et au tag
         $produit1 = new \App\Entity\Produit();
         $produit1->setNom('Produit 1');
         $produit1->setDescription('Premier produit de test');
@@ -41,7 +90,11 @@ final class ProduitController extends AbstractController
         $produit1->setCategorie($categorie);
         $entityManager->persist($produit1);
 
-        // Création du second produit
+        // On associe le tag au produit 1 (relation ManyToOne côté Tag)
+        $tag->setProduit($produit1);
+        $produit1->addTag($tag);
+
+        // 4. On crée le second produit, puis on l'associe à la catégorie
         $produit2 = new \App\Entity\Produit();
         $produit2->setNom('Produit 2');
         $produit2->setDescription('Deuxième produit de test');
@@ -51,16 +104,14 @@ final class ProduitController extends AbstractController
         $produit2->setCategorie($categorie);
         $entityManager->persist($produit2);
 
-        // Associer le tag aux deux produits
-        $tag->setProduit($produit1);
-        $produit1->addTag($tag);
-
+        // 5. On crée un second tag, qu'on associe au produit 2
         $tag2 = new \App\Entity\Tag();
         $tag2->setNom('Tag Commun');
         $tag2->setProduit($produit2);
         $produit2->addTag($tag2);
         $entityManager->persist($tag2);
 
+        // 6. On enregistre toutes les entités en base
         $entityManager->flush();
 
         return new Response('2 produits, une catégorie et un tag commun ont été créés.');
