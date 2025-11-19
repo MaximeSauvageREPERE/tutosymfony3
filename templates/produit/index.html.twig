@@ -6,6 +6,39 @@
 {% block body %}
 <div class="container mt-4">
     <h1>Liste des produits</h1>
-    {# Ajoutez ici le contenu de la vue produit #}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Catégorie</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td>{{ produit.id }}</td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.prix }}</td>
+                <td>{{ produit.categorie ? produit.categorie.nom : '' }}</td>
+                <td>
+                    {% for tag in produit.tag %}
+                        <span class="badge bg-primary">{{ tag.nom }}</span>{% if not loop.last %}, {% endif %}
+                    {% else %}
+                        <span class="text-muted">Aucun tag</span>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Aucun produit trouvé.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
