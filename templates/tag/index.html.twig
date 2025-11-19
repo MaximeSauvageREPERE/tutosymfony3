@@ -6,6 +6,27 @@
 {% block body %}
 <div class="container mt-4">
     <h1>Liste des tags</h1>
-    {# Ajoutez ici le contenu de la vue tag #}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Produit associé</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ tag.id }}</td>
+                <td>{{ tag.nom }}</td>
+                <td>{{ tag.produit ? tag.produit.nom : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3" class="text-center">Aucun tag trouvé.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
