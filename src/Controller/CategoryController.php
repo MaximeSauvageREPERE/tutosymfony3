@@ -45,4 +45,12 @@ final class CategoryController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/category/{id}/delete', name: 'app_category_delete', methods: ['POST'])]
+    public function delete(Category $category, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($category);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_category');
+    }
 }

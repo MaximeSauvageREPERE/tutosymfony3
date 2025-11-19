@@ -45,6 +45,14 @@ final class ProduitController extends AbstractController
         ]);
     }
 
+    #[Route('/produit/{id}/delete', name: 'app_produit_delete', methods: ['POST'])]
+    public function delete(Produit $produit, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($produit);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_produit');
+    }
+
     #[Route('/produit/test', name: 'app_produit_test')]
     public function test(EntityManagerInterface $entityManager): Response
     {
