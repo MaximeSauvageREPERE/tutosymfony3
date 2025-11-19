@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Produit;
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 final class ProduitController extends AbstractController
 {
@@ -25,7 +27,7 @@ final class ProduitController extends AbstractController
         ]);
     }
     #[Route('/produit/create', name: 'app_produit_create')]
-    public function create(Request $request): Response
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $produit = new Produit();
         $form = $this->createFormBuilder($produit)
@@ -47,6 +49,12 @@ final class ProduitController extends AbstractController
                 'label' => 'Actif',
                 'required' => false,
             ])
+            ->add('categorie', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'nom',
+                'label' => 'Catégorie',
+                'placeholder' => 'Sélectionner une catégorie',
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Créer le produit'
             ])
@@ -54,11 +62,9 @@ final class ProduitController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Ici, on pourrait persister le produit si besoin
-            // $entityManager = ...
-            // $entityManager->persist($produit);
-            // $entityManager->flush();
-            return new Response('Produit créé : ' . $produit->getNom());
+            $entityManager->persist($produit);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_produit');
         }
 
         return $this->render('produit/create.html.twig', [
