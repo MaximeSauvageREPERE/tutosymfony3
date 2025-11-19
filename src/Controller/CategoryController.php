@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\CategoryType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,18 +24,7 @@ final class CategoryController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $category = new Category();
-        $form = $this->createFormBuilder($category)
-            ->add('nom', TextType::class, [
-                'label' => 'Nom de la catégorie',
-            ])
-            ->add('description', TextType::class, [
-                'label' => 'Description',
-                'required' => false,
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Créer la catégorie'
-            ])
-            ->getForm();
+        $form = $this->createForm(CategoryType::class, $category);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

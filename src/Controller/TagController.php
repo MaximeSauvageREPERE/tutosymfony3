@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\TagType;
 use App\Entity\Tag;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,14 +24,7 @@ final class TagController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $tag = new Tag();
-        $form = $this->createFormBuilder($tag)
-            ->add('nom', TextType::class, [
-                'label' => 'Nom du tag',
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Créer le tag'
-            ])
-            ->getForm();
+        $form = $this->createForm(TagType::class, $tag);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

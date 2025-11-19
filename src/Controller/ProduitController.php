@@ -6,15 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Produit;
-use App\Entity\Category;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\ProduitType;
 
 final class ProduitController extends AbstractController
 {
@@ -30,35 +24,7 @@ final class ProduitController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $produit = new Produit();
-        $form = $this->createFormBuilder($produit)
-            ->add('nom', TextType::class, [
-                'label' => 'Nom du produit',
-            ])
-            ->add('description', TextType::class, [
-                'label' => 'Description',
-                'required' => false,
-            ])
-            ->add('prix', IntegerType::class, [
-                'label' => 'Prix',
-            ])
-            ->add('creationdate', DateType::class, [
-                'label' => 'Date de création',
-                'widget' => 'single_text',
-            ])
-            ->add('active', CheckboxType::class, [
-                'label' => 'Actif',
-                'required' => false,
-            ])
-            ->add('categorie', EntityType::class, [
-                'class' => Category::class,
-                'choice_label' => 'nom',
-                'label' => 'Catégorie',
-                'placeholder' => 'Sélectionner une catégorie',
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Créer le produit'
-            ])
-            ->getForm();
+        $form = $this->createForm(ProduitType::class, $produit);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
