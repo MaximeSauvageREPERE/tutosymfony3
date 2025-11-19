@@ -12,6 +12,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class TagController extends AbstractController
 {
+    #[Route('/tag/{id}', name: 'app_tag_show')]
+    public function show(Tag $tag): Response
+    {
+        return $this->render('tag/show.html.twig', [
+            'tag' => $tag,
+        ]);
+    }
     #[Route('/tag', name: 'app_tag')]
     public function index(EntityManagerInterface $entityManager): Response
     {

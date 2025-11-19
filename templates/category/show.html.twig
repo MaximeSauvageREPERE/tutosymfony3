@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de la catégorie{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Détail de la catégorie</h1>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>ID :</strong> {{ category.id }}</li>
+        <li class="list-group-item"><strong>Nom :</strong> {{ category.nom }}</li>
+        <li class="list-group-item"><strong>Description :</strong> {{ category.description }}</li>
+    </ul>
+    <a href="{{ path('app_category') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du tag{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Détail du tag</h1>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>ID :</strong> {{ tag.id }}</li>
+        <li class="list-group-item"><strong>Nom :</strong> {{ tag.nom }}</li>
+        <li class="list-group-item"><strong>Produit associé :</strong> {{ tag.produit ? tag.produit.nom : '' }}</li>
+    </ul>
+    <a href="{{ path('app_tag') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+</div>
+{% endblock %}
