@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,20 @@ class Produit
 
     #[ORM\Column]
     private ?bool $active = null;
+
+    #[ORM\ManyToOne(inversedBy: 'produits')]
+    private ?Category $categorie = null;
+
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'produit')]
+    private Collection $tag;
+
+    public function __construct()
+    {
+        $this->tag = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +106,48 @@ class Produit
     public function setActive(bool $active): static
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Category
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Category $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTag(): Collection
+    {
+        return $this->tag;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag->add($tag);
+            $tag->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        if ($this->tag->removeElement($tag)) {
+            // set the owning side to null (unless already changed)
+            if ($tag->getProduit() === $this) {
+                $tag->setProduit(null);
+            }
+        }
 
         return $this;
     }

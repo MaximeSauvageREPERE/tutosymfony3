@@ -17,6 +17,9 @@ class Tag
     #[ORM\Column(type: Types::TEXT)]
     private ?string $nom = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tag')]
+    private ?Produit $produit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -30,6 +33,18 @@ class Tag
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): static
+    {
+        $this->produit = $produit;
 
         return $this;
     }
