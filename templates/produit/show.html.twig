@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du produit{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Détail du produit</h1>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>ID :</strong> {{ produit.id }}</li>
+        <li class="list-group-item"><strong>Nom :</strong> {{ produit.nom }}</li>
+        <li class="list-group-item"><strong>Description :</strong> {{ produit.description }}</li>
+        <li class="list-group-item"><strong>Prix :</strong> {{ produit.prix }}</li>
+        <li class="list-group-item"><strong>Catégorie :</strong> {{ produit.categorie ? produit.categorie.nom : '' }}</li>
+        <li class="list-group-item"><strong>Tags :</strong>
+            {% for tag in produit.tag %}
+                <span class="badge bg-primary">{{ tag.nom }}</span>{% if not loop.last %}, {% endif %}
+            {% else %}
+                <span class="text-muted">Aucun tag</span>
+            {% endfor %}
+        </li>
+    </ul>
+    <a href="{{ path('app_produit') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+</div>
+{% endblock %}

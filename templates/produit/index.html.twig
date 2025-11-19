@@ -15,6 +15,7 @@
                 <th>Prix</th>
                 <th>Catégorie</th>
                 <th>Tags</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,9 @@
                     {% else %}
                         <span class="text-muted">Aucun tag</span>
                     {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('app_produit_show', {id: produit.id}) }}" class="btn btn-sm btn-info">Voir</a>
                 </td>
             </tr>
         {% else %}
