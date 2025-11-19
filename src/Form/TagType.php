@@ -17,7 +17,9 @@ class TagType extends AbstractType
             ->add('nom')
             ->add('produit', EntityType::class, [
                 'class' => Produit::class,
-                'choice_label' => 'id',
+                'choice_label' => function($produit) {
+                    return $produit->getId() . ' - ' . $produit->getNom();
+                },
             ])
         ;
     }
