@@ -6,6 +6,27 @@
 {% block body %}
 <div class="container mt-4">
     <h1>Liste des catégories</h1>
-    {# Ajoutez ici le contenu de la vue catégorie #}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.nom }}</td>
+                <td>{{ category.description }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3" class="text-center">Aucune catégorie trouvée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
