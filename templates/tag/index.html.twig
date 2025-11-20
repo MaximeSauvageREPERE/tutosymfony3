@@ -16,7 +16,6 @@
                     <table class="table table-bordered table-hover table-striped align-middle mb-0">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Nom</th>
                                 <th>Produits associés</th>
                                 <th>Action</th>
@@ -25,7 +24,6 @@
                         <tbody>
                         {% for tag in tags %}
                             <tr>
-                                <td>{{ tag.id }}</td>
                                 <td>{{ tag.nom }}</td>
                                 <td>
                                     {% for produit in tag.produits %}
