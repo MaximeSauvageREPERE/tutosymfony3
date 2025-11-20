@@ -15,9 +15,13 @@
                 </div>
                 <div class="mb-3">
                     {{ form_label(form.produits, 'Produits associés') }}
-                    {{ form_widget(form.produits, {'attr': {'class': 'form-select', 'size': '5'}}) }}
+                    {% for choice in form.produits %}
+                        <div class="form-check">
+                            {{ form_widget(choice) }}
+                            {{ form_label(choice) }}
+                        </div>
+                    {% endfor %}
                     {{ form_errors(form.produits) }}
-                    <small class="form-text text-muted">Maintenez Ctrl (ou Cmd) pour sélectionner plusieurs produits</small>
                 </div>
                 <button class="btn btn-primary w-100" type="submit">Créer le tag</button>
             {{ form_end(form) }}

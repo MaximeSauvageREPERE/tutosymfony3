@@ -23,11 +23,10 @@ class TagType extends AbstractType
                 'class' => Produit::class,
                 'choice_label' => 'nom',
                 'multiple' => true,
-                'expanded' => false,
+                'expanded' => true, // Affiche des cases à cocher
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-select',
-                ],
+                'label_attr' => ['class' => 'd-block'],
+                'attr' => ['class' => 'd-flex flex-column'],
             ])
         ;
     }

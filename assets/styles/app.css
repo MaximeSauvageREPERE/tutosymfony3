@@ -1,3 +1,8 @@
+/* Affichage vertical des cases à cocher Symfony */
+.form-check-group .form-check {
+    display: block !important;
+    margin-bottom: 0.25rem;
+}
 body {
     background: #ffffff;
     background: radial-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(173, 173, 173, 1) 100%);
