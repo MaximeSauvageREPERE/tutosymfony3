@@ -5,9 +5,17 @@
 {% block body %}
 <div class="container mt-4">
     <h1>Créer un tag</h1>
-    {{ form_start(form) }}
-        {{ form_row(form.nom) }}
-        <button class="btn btn-primary" type="submit">Créer le tag</button>
-    {{ form_end(form) }}
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+                <button class="btn btn-primary w-100" type="submit">Créer le tag</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
 </div>
 {% endblock %}
