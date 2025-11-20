@@ -12,13 +12,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class TagController extends AbstractController
 {
-    #[Route('/tag/{id}', name: 'app_tag_show')]
-    public function show(Tag $tag): Response
-    {
-        return $this->render('tag/show.html.twig', [
-            'tag' => $tag,
-        ]);
-    }
     #[Route('/tag', name: 'app_tag')]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -46,14 +39,15 @@ final class TagController extends AbstractController
         ]);
     }
 
-    #[Route('/tag/{id}/delete', name: 'app_tag_delete', methods: ['POST'])]
-    public function delete(Tag $tag, EntityManagerInterface $entityManager): Response
+    #[Route('/tag/{id}', name: 'app_tag_show', requirements: ['id' => '\d+'])]
+    public function show(Tag $tag): Response
     {
-        $entityManager->remove($tag);
-        $entityManager->flush();
-        return $this->redirectToRoute('app_tag');
+        return $this->render('tag/show.html.twig', [
+            'tag' => $tag,
+        ]);
     }
-    #[Route('/tag/{id}/edit', name: 'app_tag_edit')]
+
+    #[Route('/tag/{id}/edit', name: 'app_tag_edit', requirements: ['id' => '\d+'])]
     public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TagType::class, $tag);
@@ -66,5 +60,13 @@ final class TagController extends AbstractController
             'form' => $form->createView(),
             'tag' => $tag,
         ]);
+    }
+
+    #[Route('/tag/{id}/delete', name: 'app_tag_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function delete(Tag $tag, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($tag);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_tag');
     }
 }
