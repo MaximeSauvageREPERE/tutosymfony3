@@ -4,21 +4,28 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1>Détail du produit</h1>
-    <ul class="list-group">
-        <li class="list-group-item"><strong>ID :</strong> {{ produit.id }}</li>
-        <li class="list-group-item"><strong>Nom :</strong> {{ produit.nom }}</li>
-        <li class="list-group-item"><strong>Description :</strong> {{ produit.description }}</li>
-        <li class="list-group-item"><strong>Prix :</strong> {{ produit.prix }}</li>
-        <li class="list-group-item"><strong>Catégorie :</strong> {{ produit.categorie ? produit.categorie.nom : '' }}</li>
-        <li class="list-group-item"><strong>Tags :</strong>
-            {% for tag in produit.tag %}
-                <span class="badge bg-primary">{{ tag.nom }}</span>{% if not loop.last %}, {% endif %}
-            {% else %}
-                <span class="text-muted">Aucun tag</span>
-            {% endfor %}
-        </li>
-    </ul>
-    <a href="{{ path('app_produit') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+    <h2 class="text-center mb-4">Détail du produit</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded-4">
+                <div class="card-body bg-light bg-gradient rounded-4">
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>Nom :</strong> {{ produit.nom }}</li>
+                        <li class="list-group-item"><strong>Description :</strong> {{ produit.description }}</li>
+                        <li class="list-group-item"><strong>Prix :</strong> <span class="text-success fw-bold">{{ produit.prix }} €</span></li>
+                        <li class="list-group-item"><strong>Catégorie :</strong> <span class="badge bg-secondary">{{ produit.categorie ? produit.categorie.nom : '' }}</span></li>
+                        <li class="list-group-item"><strong>Tags :</strong>
+                            {% for tag in produit.tags %}
+                                <span class="badge bg-primary">{{ tag.nom }}</span>{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                <span class="text-muted">Aucun tag</span>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                    <a href="{{ path('app_produit') }}" class="btn btn-secondary w-100">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
