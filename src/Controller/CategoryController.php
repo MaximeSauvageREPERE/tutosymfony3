@@ -12,13 +12,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CategoryController extends AbstractController
 {
-    #[Route('/category/{id}', name: 'app_category_show')]
-    public function show(Category $category): Response
-    {
-        return $this->render('category/show.html.twig', [
-            'category' => $category,
-        ]);
-    }
     #[Route('/category', name: 'app_category')]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -46,14 +39,15 @@ final class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/category/{id}/delete', name: 'app_category_delete', methods: ['POST'])]
-    public function delete(Category $category, EntityManagerInterface $entityManager): Response
+    #[Route('/category/{id}', name: 'app_category_show', requirements: ['id' => '\d+'])]
+    public function show(Category $category): Response
     {
-        $entityManager->remove($category);
-        $entityManager->flush();
-        return $this->redirectToRoute('app_category');
+        return $this->render('category/show.html.twig', [
+            'category' => $category,
+        ]);
     }
-    #[Route('/category/{id}/edit', name: 'app_category_edit')]
+
+    #[Route('/category/{id}/edit', name: 'app_category_edit', requirements: ['id' => '\d+'])]
     public function edit(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
@@ -66,5 +60,13 @@ final class CategoryController extends AbstractController
             'form' => $form->createView(),
             'category' => $category,
         ]);
+    }
+
+    #[Route('/category/{id}/delete', name: 'app_category_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function delete(Category $category, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($category);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_category');
     }
 }
