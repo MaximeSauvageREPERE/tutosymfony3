@@ -14,12 +14,20 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('produit', EntityType::class, [
+            ->add('nom', null, [
+                'attr' => [
+                    'placeholder' => 'Nom du tag',
+                ],
+            ])
+            ->add('produits', EntityType::class, [
                 'class' => Produit::class,
-                'choice_label' => function($produit) {
-                    return $produit->getId() . ' - ' . $produit->getNom();
-                },
+                'choice_label' => 'nom',
+                'multiple' => true,
+                'expanded' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-select',
+                ],
             ])
         ;
     }

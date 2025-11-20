@@ -4,11 +4,25 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1>Modifier le tag</h1>
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-primary">Enregistrer</button>
-    {{ form_end(form) }}
-    <a href="{{ path('app_tag') }}" class="btn btn-secondary mt-2">Retour à la liste</a>
+    <h1 class="text-center">Modifier le tag</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.produits, 'Produits associés') }}
+                    {{ form_widget(form.produits, {'attr': {'class': 'form-select', 'size': '5'}}) }}
+                    {{ form_errors(form.produits) }}
+                    <small class="form-text text-muted">Maintenez Ctrl (ou Cmd) pour sélectionner plusieurs produits</small>
+                </div>
+                <button class="btn btn-primary w-100" type="submit">Enregistrer</button>
+            {{ form_end(form) }}
+            <a href="{{ path('app_tag') }}" class="btn btn-secondary mt-2 w-100">Retour à la liste</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

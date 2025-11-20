@@ -37,12 +37,12 @@ class Produit
     /**
      * @var Collection<int, Tag>
      */
-    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'produit', cascade: ['remove'], orphanRemoval: true)]
-    private Collection $tag;
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'produits')]
+    private Collection $tags;
 
     public function __construct()
     {
-        $this->tag = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,16 +125,15 @@ class Produit
     /**
      * @return Collection<int, Tag>
      */
-    public function getTag(): Collection
+    public function getTags(): Collection
     {
-        return $this->tag;
+        return $this->tags;
     }
 
     public function addTag(Tag $tag): static
     {
-        if (!$this->tag->contains($tag)) {
-            $this->tag->add($tag);
-            $tag->setProduit($this);
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
         }
 
         return $this;
@@ -142,13 +141,7 @@ class Produit
 
     public function removeTag(Tag $tag): static
     {
-        if ($this->tag->removeElement($tag)) {
-            // set the owning side to null (unless already changed)
-            if ($tag->getProduit() === $this) {
-                $tag->setProduit(null);
-            }
-        }
-
+        $this->tags->removeElement($tag);
         return $this;
     }
 }
