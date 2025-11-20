@@ -12,13 +12,12 @@
     <div class="row">
         {% for produit in produits %}
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ produit.nom }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">ID : {{ produit.id }}</h6>
+                <div class="card h-100 shadow-lg border-0 rounded-4 produit-card position-relative overflow-hidden" style="transition: transform 0.2s;">
+                    <div class="card-body bg-light bg-gradient">
+                        <h5 class="card-title fw-bold text-primary">{{ produit.nom }}</h5>
                         <p class="card-text">{{ produit.description }}</p>
-                        <p class="card-text"><strong>Prix :</strong> {{ produit.prix }} €</p>
-                        <p class="card-text"><strong>Catégorie :</strong> {{ produit.categorie ? produit.categorie.nom : 'Aucune' }}</p>
+                        <p class="card-text"><strong>Prix :</strong> <span class="text-success">{{ produit.prix }} €</span></p>
+                        <p class="card-text"><strong>Catégorie :</strong> <span class="badge bg-secondary">{{ produit.categorie ? produit.categorie.nom : 'Aucune' }}</span></p>
                         <p class="card-text">
                             <strong>Tags :</strong>
                             {% for tag in produit.tags %}
@@ -28,17 +27,17 @@
                             {% endfor %}
                         </p>
                     </div>
-                    <div class="card-footer bg-white border-0">
-                        <a href="{{ path('app_panier_add', {id: produit.id}) }}" class="btn btn-success w-100 mb-2">
-                            <i class="bi bi-cart-plus"></i> Ajouter au panier
-                        </a>
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ path('app_produit_show', {id: produit.id}) }}" class="btn btn-sm btn-info">Voir</a>
-                            <a href="{{ path('app_produit_edit', {id: produit.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
-                            <form method="post" action="{{ path('app_produit_delete', {id: produit.id}) }}" style="display:inline-block;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
+                    <div class="card-footer bg-white border-0 border-top pt-3">
+                        <div class="d-flex gap-2 justify-content-between flex-wrap">
+                            <a href="{{ path('app_produit_show', {id: produit.id}) }}" class="btn btn-sm btn-info flex-fill shadow-sm">Voir</a>
+                            <a href="{{ path('app_produit_edit', {id: produit.id}) }}" class="btn btn-sm btn-warning flex-fill shadow-sm">Modifier</a>
+                            <form method="post" action="{{ path('app_produit_delete', {id: produit.id}) }}" style="display:inline-block;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');" class="flex-fill m-0 p-0">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
-                                <button class="btn btn-sm btn-danger">Supprimer</button>
+                                <button class="btn btn-sm btn-danger w-100 shadow-sm">Supprimer</button>
                             </form>
+                            <a href="{{ path('app_panier_add', {id: produit.id}) }}" class="btn btn-success btn-sm flex-fill shadow-sm">
+                                <i class="bi bi-cart-plus"></i> Ajouter au panier
+                            </a>
                         </div>
                     </div>
                 </div>
