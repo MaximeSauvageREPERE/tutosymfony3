@@ -14,37 +14,13 @@
                     {{ form_errors(form.nom) }}
                 </div>
                 <div class="mb-3">
-                    {{ form_label(form.produits, 'Produits associés par catégorie') }}
-                    <div class="row">
-                        {% set current_group = null %}
-                        {% for choice in form.produits %}
-                            {% set group_label = choice.vars.label %}
-                            {% if group_label starts with '__' %}
-                                {% set parts = group_label|split('__') %}
-                                {% set category = parts[1] %}
-                                {% set product_name = parts[2] %}
-                                {% if current_group != category %}
-                                    {% if current_group is not null %}</div>{% endif %}
-                                    {% set current_group = category %}
-                                    <div class="col-md-6 mb-3">
-                                        <h6 class="fw-bold">{{ category }}</h6>
-                                {% endif %}
-                                <div class="form-check">
-                                    {{ form_widget(choice) }}
-                                    <label class="form-check-label" for="{{ choice.vars.id }}">{{ product_name }}</label>
-                                </div>
-                            {% else %}
-                                {% if current_group is not null %}</div>{% set current_group = null %}{% endif %}
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        {{ form_widget(choice) }}
-                                        {{ form_label(choice) }}
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                        {% if current_group is not null %}</div>{% endif %}
-                    </div>
+                    {{ form_label(form.produits, 'Produits associés') }}
+                    {% for choice in form.produits %}
+                        <div class="form-check">
+                            {{ form_widget(choice) }}
+                            {{ form_label(choice) }}
+                        </div>
+                    {% endfor %}
                     {{ form_errors(form.produits) }}
                 </div>
                 <button class="btn btn-primary w-100" type="submit">Enregistrer</button>

@@ -22,14 +22,9 @@ class TagType extends AbstractType
             ->add('produits', EntityType::class, [
                 'class' => Produit::class,
                 'choice_label' => 'nom',
-                'group_by' => function($produit) {
-                    return $produit->getCategorie() ? $produit->getCategorie()->getNom() : 'Sans catégorie';
-                },
                 'multiple' => true,
-                'expanded' => true, // Affiche des cases à cocher
+                'expanded' => true,
                 'required' => false,
-                'label_attr' => ['class' => 'd-block'],
-                'attr' => ['class' => 'd-flex flex-column'],
             ])
         ;
     }
