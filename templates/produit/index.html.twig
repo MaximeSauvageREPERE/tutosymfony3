@@ -21,7 +21,7 @@
                         <p class="card-text"><strong>Catégorie :</strong> {{ produit.categorie ? produit.categorie.nom : 'Aucune' }}</p>
                         <p class="card-text">
                             <strong>Tags :</strong>
-                            {% for tag in produit.tag %}
+                            {% for tag in produit.tags %}
                                 <span class="badge bg-primary">{{ tag.nom }}</span>{% if not loop.last %}, {% endif %}
                             {% else %}
                                 <span class="text-muted">Aucun tag</span>

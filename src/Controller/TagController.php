@@ -29,6 +29,11 @@ final class TagController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Synchroniser la relation ManyToMany bidirectionnelle
+            foreach ($tag->getProduits() as $produit) {
+                $produit->addTag($tag);
+            }
+            
             $entityManager->persist($tag);
             $entityManager->flush();
             return $this->redirectToRoute('app_tag');
@@ -50,9 +55,29 @@ final class TagController extends AbstractController
     #[Route('/tag/{id}/edit', name: 'app_tag_edit', requirements: ['id' => '\d+'])]
     public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
+        // Sauvegarder les produits actuels avant modification
+        $originalProduits = [];
+        foreach ($tag->getProduits() as $produit) {
+            $originalProduits[] = $produit;
+        }
+        
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Retirer le tag des produits qui ne sont plus associés
+            foreach ($originalProduits as $produit) {
+                if (!$tag->getProduits()->contains($produit)) {
+                    $produit->removeTag($tag);
+                }
+            }
+            
+            // Ajouter le tag aux nouveaux produits associés
+            foreach ($tag->getProduits() as $produit) {
+                if (!in_array($produit, $originalProduits, true)) {
+                    $produit->addTag($tag);
+                }
+            }
+            
             $entityManager->flush();
             return $this->redirectToRoute('app_tag');
         }

@@ -14,7 +14,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nom</th>
-                <th>Produit associé</th>
+                <th>Produits associés</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -23,7 +23,13 @@
             <tr>
                 <td>{{ tag.id }}</td>
                 <td>{{ tag.nom }}</td>
-                <td>{{ tag.produit ? tag.produit.nom : '' }}</td>
+                <td>
+                    {% for produit in tag.produits %}
+                        <span class="badge bg-primary">{{ produit.nom }}</span>{% if not loop.last %}, {% endif %}
+                    {% else %}
+                        <span class="text-muted">Aucun produit</span>
+                    {% endfor %}
+                </td>
                 <td>
                     <a href="{{ path('app_tag_show', {id: tag.id}) }}" class="btn btn-sm btn-info">Voir</a>
                     <a href="{{ path('app_tag_edit', {id: tag.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
