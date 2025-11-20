@@ -5,7 +5,10 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1>Liste des catégories</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Liste des catégories</h1>
+        <a href="{{ path('app_category_create') }}" class="btn btn-success">Ajouter une catégorie</a>
+    </div>
     <table class="table table-bordered">
         <thead>
             <tr>
