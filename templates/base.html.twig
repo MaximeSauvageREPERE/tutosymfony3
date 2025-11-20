@@ -58,7 +58,7 @@
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">S'identifier</a>
+                            <a class="nav-link" href="{{ path('app_login') }}">S'identifier</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_panier' ? 'active' : '' }}" href="{{ path('app_panier') }}" title="Voir le panier">
