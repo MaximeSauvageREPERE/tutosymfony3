@@ -23,8 +23,12 @@ class TagType extends AbstractType
                 'class' => Produit::class,
                 'choice_label' => 'nom',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => false,
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-select',
+                    'size' => 8,
+                ],
             ])
         ;
     }

@@ -15,12 +15,7 @@
                 </div>
                 <div class="mb-3">
                     {{ form_label(form.produits, 'Produits associés') }}
-                    {% for choice in form.produits %}
-                        <div class="form-check">
-                            {{ form_widget(choice) }}
-                            {{ form_label(choice) }}
-                        </div>
-                    {% endfor %}
+                    {{ form_widget(form.produits) }}
                     {{ form_errors(form.produits) }}
                 </div>
                 <button class="btn btn-primary w-100" type="submit">Créer le tag</button>
