@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\CategoryType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Category;
@@ -22,6 +23,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/create', name: 'app_category_create')]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $category = new Category();
@@ -48,6 +50,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{id}/edit', name: 'app_category_edit', requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
@@ -63,6 +66,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{id}/delete', name: 'app_category_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Category $category, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($category);

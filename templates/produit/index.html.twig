@@ -7,7 +7,9 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mb-0 text-primary">Liste des produits</h1>
+        {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_produit_create') }}" class="btn btn-success">Ajouter un produit</a>
+        {% endif %}
     </div>
     <div class="row">
         {% for produit in produits %}
@@ -30,11 +32,13 @@
                     <div class="card-footer bg-white border-0 border-top pt-3">
                         <div class="d-flex gap-2 justify-content-between flex-wrap">
                             <a href="{{ path('app_produit_show', {id: produit.id}) }}" class="btn btn-sm btn-info flex-fill shadow-sm">Voir</a>
+                            {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('app_produit_edit', {id: produit.id}) }}" class="btn btn-sm btn-warning flex-fill shadow-sm">Modifier</a>
                             <form method="post" action="{{ path('app_produit_delete', {id: produit.id}) }}" style="display:inline-block;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');" class="flex-fill m-0 p-0">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
                                 <button class="btn btn-sm btn-danger w-100 shadow-sm">Supprimer</button>
                             </form>
+                            {% endif %}
                             <a href="{{ path('app_panier_add', {id: produit.id}) }}" class="btn btn-success btn-sm flex-fill shadow-sm">
                                 <i class="bi bi-cart-plus"></i> Ajouter au panier
                             </a>

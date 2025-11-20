@@ -34,7 +34,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownProduit">
                                 <li><a class="dropdown-item" href="{{ path('app_produit') }}">Liste</a></li>
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <li><a class="dropdown-item" href="{{ path('app_produit_create') }}">Ajouter</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -43,7 +45,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCategory">
                                 <li><a class="dropdown-item" href="{{ path('app_category') }}">Liste</a></li>
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <li><a class="dropdown-item" href="{{ path('app_category_create') }}">Ajouter</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -52,14 +56,25 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownTag">
                                 <li><a class="dropdown-item" href="{{ path('app_tag') }}">Liste</a></li>
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <li><a class="dropdown-item" href="{{ path('app_tag_create') }}">Ajouter</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_login') }}">S'identifier</a>
-                        </li>
+                        {% if app.user %}
+                            <li class="nav-item">
+                                <span class="nav-link">Bonjour, {{ app.user.name }}</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_login') }}">S'identifier</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_panier' ? 'active' : '' }}" href="{{ path('app_panier') }}" title="Voir le panier">
                                 Panier

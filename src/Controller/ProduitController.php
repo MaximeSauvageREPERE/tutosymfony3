@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 
@@ -22,6 +23,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/create', name: 'app_produit_create')]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $produit = new Produit();
@@ -51,6 +53,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}/edit', name: 'app_produit_edit', requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
         if (!$produit) {
@@ -69,6 +72,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}/delete', name: 'app_produit_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Produit $produit, EntityManagerInterface $entityManager): Response
     {
         if (!$produit) {

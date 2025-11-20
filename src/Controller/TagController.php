@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\TagType;
 use App\Entity\Tag;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +23,7 @@ final class TagController extends AbstractController
     }
 
     #[Route('/tag/create', name: 'app_tag_create')]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $tag = new Tag();
@@ -53,6 +55,7 @@ final class TagController extends AbstractController
     }
 
     #[Route('/tag/{id}/edit', name: 'app_tag_edit', requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
         // Sauvegarder les produits actuels avant modification
@@ -88,6 +91,7 @@ final class TagController extends AbstractController
     }
 
     #[Route('/tag/{id}/delete', name: 'app_tag_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Tag $tag, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($tag);
