@@ -40,7 +40,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}', name: 'app_produit_show', requirements: ['id' => '\d+'])]
-    public function show(Produit $produit = null): Response
+    public function show(Produit $produit): Response
     {
         if (!$produit) {
             throw $this->createNotFoundException('Produit non trouvé.');
@@ -51,7 +51,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}/edit', name: 'app_produit_edit', requirements: ['id' => '\d+'])]
-    public function edit(Request $request, Produit $produit = null, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
         if (!$produit) {
             throw $this->createNotFoundException('Produit non trouvé.');
@@ -69,7 +69,7 @@ final class ProduitController extends AbstractController
     }
 
     #[Route('/produit/{id}/delete', name: 'app_produit_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(Produit $produit = null, EntityManagerInterface $entityManager): Response
+    public function delete(Produit $produit, EntityManagerInterface $entityManager): Response
     {
         if (!$produit) {
             throw $this->createNotFoundException('Produit non trouvé.');
