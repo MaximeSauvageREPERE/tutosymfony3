@@ -26,13 +26,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="/category">Catégories</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_produit' ? 'active' : '' }}" href="/produit">Produits</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/produit">Produits</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_category' ? 'active' : '' }}" href="/category">Catégories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/tag">Tags</a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') starts with 'app_tag' ? 'active' : '' }}" href="/tag">Tags</a>
                         </li>
                     </ul>
                 </div>
