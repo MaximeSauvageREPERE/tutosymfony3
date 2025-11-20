@@ -6,40 +6,44 @@
 <div class="container mt-4">
     <h1 class="text-center">Créer un produit</h1>
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            {{ form_start(form) }}
-                <div class="mb-3">
-                    {{ form_label(form.nom) }}
-                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.nom) }}
+        <div class="col-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.nom) }}
+                            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.nom) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.prix) }}
+                            {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.prix) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.creationdate) }}
+                            {{ form_widget(form.creationdate, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.creationdate) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.active) }}
+                            {{ form_widget(form.active, {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_errors(form.active) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.categorie) }}
+                            {{ form_widget(form.categorie, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(form.categorie) }}
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">Créer le produit</button>
+                    {{ form_end(form) }}
                 </div>
-                <div class="mb-3">
-                    {{ form_label(form.description) }}
-                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.description) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_label(form.prix) }}
-                    {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.prix) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_label(form.creationdate) }}
-                    {{ form_widget(form.creationdate, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.creationdate) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_label(form.active) }}
-                    {{ form_widget(form.active, {'attr': {'class': 'form-check-input'}}) }}
-                    {{ form_errors(form.active) }}
-                </div>
-                <div class="mb-3">
-                    {{ form_label(form.categorie) }}
-                    {{ form_widget(form.categorie, {'attr': {'class': 'form-select'}}) }}
-                    {{ form_errors(form.categorie) }}
-                </div>
-                <button class="btn btn-primary w-100" type="submit">Créer le produit</button>
-            {{ form_end(form) }}
+            </div>
         </div>
     </div>
 </div>
