@@ -37,7 +37,7 @@ class Produit
     /**
      * @var Collection<int, Tag>
      */
-    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'produit')]
+    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'produit', cascade: ['remove'], orphanRemoval: true)]
     private Collection $tag;
 
     public function __construct()
