@@ -1,20 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PanierController!{% endblock %}
+{% block title %}Mon Panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Mon Panier</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/msauvage.cda/my_project/tutosymfony3/src/Controller/PanierController.php</code></li>
-        <li>Your template at <code>C:/Users/msauvage.cda/my_project/tutosymfony3/templates/panier/index.html.twig</code></li>
-    </ul>
+    {% if panier.lignes|length > 0 %}
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix unitaire</th>
+                            <th>Quantité</th>
+                            <th>Sous-total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ligne in panier.lignes %}
+                            <tr>
+                                <td>{{ ligne.produit.nom }}</td>
+                                <td>{{ ligne.produit.prix }} €</td>
+                                <td>
+                                    <form method="post" action="{{ path('app_panier_update', {id: ligne.id}) }}" class="d-inline">
+                                        <input type="number" name="quantite" value="{{ ligne.quantite }}" min="1" class="form-control form-control-sm" style="width: 80px; display: inline-block;">
+                                        <button type="submit" class="btn btn-sm btn-secondary">Mettre à jour</button>
+                                    </form>
+                                </td>
+                                <td>{{ ligne.sousTotal }} €</td>
+                                <td>
+                                    <form method="post" action="{{ path('app_panier_remove', {id: ligne.id}) }}" style="display:inline-block;">
+                                        <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Récapitulatif</h5>
+                        <p class="card-text">
+                            <strong>Total :</strong> {{ panier.total }} €
+                        </p>
+                        <form method="post" action="{{ path('app_panier_validate') }}">
+                            <button type="submit" class="btn btn-success w-100 mb-2">Valider la commande</button>
+                        </form>
+                        <form method="post" action="{{ path('app_panier_clear') }}">
+                            <button type="submit" class="btn btn-outline-danger w-100" onclick="return confirm('Vider le panier ?')">Vider le panier</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            Votre panier est vide. <a href="{{ path('app_produit') }}">Voir les produits</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
