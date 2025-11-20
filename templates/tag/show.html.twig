@@ -4,12 +4,26 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1>Détail du tag</h1>
-    <ul class="list-group">
-        <li class="list-group-item"><strong>ID :</strong> {{ tag.id }}</li>
-        <li class="list-group-item"><strong>Nom :</strong> {{ tag.nom }}</li>
-        <li class="list-group-item"><strong>Produit associé :</strong> {{ tag.produit ? tag.produit.nom : '' }}</li>
-    </ul>
-    <a href="{{ path('app_tag') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+    <h2 class="text-center text-primary mb-4">Détail du tag</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded-4">
+                <div class="card-body bg-light bg-gradient rounded-4">
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>ID :</strong> {{ tag.id }}</li>
+                        <li class="list-group-item"><strong>Nom :</strong> {{ tag.nom }}</li>
+                        <li class="list-group-item"><strong>Produits associés :</strong>
+                            {% for produit in tag.produits %}
+                                <span class="badge bg-primary">{{ produit.nom }}</span>{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                <span class="text-muted">Aucun produit</span>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                    <a href="{{ path('app_tag') }}" class="btn btn-secondary w-100">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
