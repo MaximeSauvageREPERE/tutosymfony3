@@ -53,4 +53,18 @@ final class CategoryController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('app_category');
     }
+    #[Route('/category/{id}/edit', name: 'app_category_edit')]
+    public function edit(Request $request, Category $category, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('app_category');
+        }
+        return $this->render('category/edit.html.twig', [
+            'form' => $form->createView(),
+            'category' => $category,
+        ]);
+    }
 }
