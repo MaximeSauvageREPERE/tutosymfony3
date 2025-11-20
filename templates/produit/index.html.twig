@@ -5,7 +5,10 @@
 
 {% block body %}
 <div class="container mt-4">
-    <h1>Liste des produits</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Liste des produits</h1>
+        <a href="{{ path('app_produit_create') }}" class="btn btn-success">Ajouter un produit</a>
+    </div>
     <div class="row">
         {% for produit in produits %}
             <div class="col-md-4 mb-4">
