@@ -13,20 +13,20 @@
         <div class="alert alert-danger">{{ message }}</div>
     {% endfor %}
 
-    {% if panier.lignes|length > 0 %}
-        <div class="row">
-            <div class="col-md-8">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Produit</th>
-                            <th>Prix unitaire</th>
-                            <th>Quantité</th>
-                            <th>Sous-total</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Prix unitaire</th>
+                        <th>Quantité</th>
+                        <th>Sous-total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if panier.lignes|length > 0 %}
                         {% for ligne in panier.lignes %}
                             <tr>
                                 <td>{{ ligne.produit.nom }}</td>
@@ -45,30 +45,37 @@
                                 </td>
                             </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Récapitulatif</h5>
-                        <p class="card-text">
-                            <strong>Total :</strong> {{ panier.total }} €
-                        </p>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                Votre panier est vide. <a href="{{ path('app_produit') }}">Voir les produits</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Récapitulatif</h5>
+                    <p class="card-text">
+                        <strong>Total :</strong> {{ panier.lignes|length > 0 ? panier.total : 0 }} €
+                    </p>
+                    {% if panier.lignes|length > 0 %}
                         <form method="post" action="{{ path('app_panier_validate') }}">
                             <button type="submit" class="btn btn-success w-100 mb-2">Valider la commande</button>
                         </form>
                         <form method="post" action="{{ path('app_panier_clear') }}">
                             <button type="submit" class="btn btn-outline-danger w-100" onclick="return confirm('Vider le panier ?')">Vider le panier</button>
                         </form>
-                    </div>
+                    {% else %}
+                        <button class="btn btn-success w-100 mb-2" disabled>Valider la commande</button>
+                        <button class="btn btn-outline-danger w-100" disabled>Vider le panier</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
-    {% else %}
-        <div class="alert alert-info text-center">
-            Votre panier est vide. <a href="{{ path('app_produit') }}">Voir les produits</a>
-        </div>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}
