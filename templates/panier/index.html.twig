@@ -15,45 +15,49 @@
 
     <div class="row">
         <div class="col-md-8">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Produit</th>
-                        <th>Prix unitaire</th>
-                        <th>Quantité</th>
-                        <th>Sous-total</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if panier.lignes|length > 0 %}
-                        {% for ligne in panier.lignes %}
+            <div class="card shadow">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead>
                             <tr>
-                                <td>{{ ligne.produit.nom }}</td>
-                                <td>{{ ligne.produit.prix }} €</td>
-                                <td>
-                                    <form method="post" action="{{ path('app_panier_update', {id: ligne.id}) }}" class="d-inline">
-                                        <input type="number" name="quantite" value="{{ ligne.quantite }}" min="1" class="form-control form-control-sm" style="width: 80px; display: inline-block;">
-                                        <button type="submit" class="btn btn-sm btn-secondary">Mettre à jour</button>
-                                    </form>
-                                </td>
-                                <td>{{ ligne.sousTotal }} €</td>
-                                <td>
-                                    <form method="post" action="{{ path('app_panier_remove', {id: ligne.id}) }}" style="display:inline-block;">
-                                        <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
-                                    </form>
-                                </td>
+                                <th>Produit</th>
+                                <th>Prix unitaire</th>
+                                <th>Quantité</th>
+                                <th>Sous-total</th>
+                                <th>Action</th>
                             </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">
-                                Votre panier est vide. <a href="{{ path('app_produit') }}">Voir les produits</a>
-                            </td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            {% if panier.lignes|length > 0 %}
+                                {% for ligne in panier.lignes %}
+                                    <tr>
+                                        <td>{{ ligne.produit.nom }}</td>
+                                        <td>{{ ligne.produit.prix }} €</td>
+                                        <td>
+                                            <form method="post" action="{{ path('app_panier_update', {id: ligne.id}) }}" class="d-inline">
+                                                <input type="number" name="quantite" value="{{ ligne.quantite }}" min="1" class="form-control form-control-sm" style="width: 80px; display: inline-block;">
+                                                <button type="submit" class="btn btn-sm btn-secondary">Mettre à jour</button>
+                                            </form>
+                                        </td>
+                                        <td>{{ ligne.sousTotal }} €</td>
+                                        <td>
+                                            <form method="post" action="{{ path('app_panier_remove', {id: ligne.id}) }}" style="display:inline-block;">
+                                                <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">
+                                        Votre panier est vide. <a href="{{ path('app_produit') }}">Voir les produits</a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="card">
