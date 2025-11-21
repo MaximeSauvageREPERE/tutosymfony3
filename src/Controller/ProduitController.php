@@ -78,12 +78,24 @@ final class ProduitController extends AbstractController
         if (!$produit) {
             throw $this->createNotFoundException('Produit non trouvé.');
         }
+        
+        // Sauvegarder l'ancien nom de fichier
+        $oldImage = $produit->getImage();
+        
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Gérer l'upload d'image
             $imageFile = $form->get('imageFile')->getData();
             if ($imageFile) {
+                // Supprimer l'ancienne image si elle existe
+                if ($oldImage) {
+                    $oldImagePath = $this->getParameter('kernel.project_dir').'/public/images/produits/'.$oldImage;
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+                
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
@@ -115,6 +127,15 @@ final class ProduitController extends AbstractController
         if (!$produit) {
             throw $this->createNotFoundException('Produit non trouvé.');
         }
+        
+        // Supprimer l'image associée si elle existe
+        if ($produit->getImage()) {
+            $imagePath = $this->getParameter('kernel.project_dir').'/public/images/produits/'.$produit->getImage();
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+        
         $entityManager->remove($produit);
         $entityManager->flush();
         return $this->redirectToRoute('app_produit');
