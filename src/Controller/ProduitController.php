@@ -15,11 +15,32 @@ use App\Form\ProduitType;
 final class ProduitController extends AbstractController
 {
     #[Route('/produit', name: 'app_produit')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $produits = $entityManager->getRepository(\App\Entity\Produit::class)->findBy([], ['nom' => 'ASC']);
+        $search = $request->query->get('search', '');
+        
+        if ($search) {
+            // Recherche avec DQL pour chercher dans le nom du produit, la catégorie et les tags
+            $qb = $entityManager->createQueryBuilder();
+            $qb->select('p')
+                ->from(Produit::class, 'p')
+                ->leftJoin('p.categorie', 'c')
+                ->leftJoin('p.tags', 't')
+                ->where('p.nom LIKE :search')
+                ->orWhere('c.nom LIKE :search')
+                ->orWhere('t.nom LIKE :search')
+                ->setParameter('search', '%' . $search . '%')
+                ->orderBy('p.nom', 'ASC')
+                ->groupBy('p.id');
+            
+            $produits = $qb->getQuery()->getResult();
+        } else {
+            $produits = $entityManager->getRepository(Produit::class)->findBy([], ['nom' => 'ASC']);
+        }
+        
         return $this->render('produit/index.html.twig', [
-            'produits' => $produits
+            'produits' => $produits,
+            'search' => $search,
         ]);
     }
 
