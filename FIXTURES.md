@@ -4,6 +4,9 @@
 Ce projet utilise DoctrineFixturesBundle pour générer des données de test.
 
 ## Contenu des fixtures
+- **2 utilisateurs** :
+  - **User** : username = `user`, password = `user`, rôle = `ROLE_USER`
+  - **Admin** : username = `admin`, password = `admin`, rôle = `ROLE_ADMIN`
 - **8 catégories** : Électronique, Vêtements, Alimentation, Maison, Sport, Livres, Jouets, Beauté
 - **10 tags** : Nouveauté, Promo, Best-seller, Écologique, Premium, Tendance, Exclusif, Soldes, Recommandé, Bio
 - **50 produits** réalistes avec descriptions, prix, catégories et tags

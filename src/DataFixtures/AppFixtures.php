@@ -7,11 +7,33 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Produit;
 use App\Entity\Category;
 use App\Entity\Tag;
+use App\Entity\Utilisateur;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     public function load(ObjectManager $manager): void
     {
+        // Création des utilisateurs
+        $userSimple = new Utilisateur();
+        $userSimple->setName('user');
+        $userSimple->setPassword($this->passwordHasher->hashPassword($userSimple, 'user'));
+        $userSimple->setRoles(['ROLE_USER']);
+        $manager->persist($userSimple);
+
+        $admin = new Utilisateur();
+        $admin->setName('admin');
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin'));
+        $admin->setRoles(['ROLE_ADMIN']);
+        $manager->persist($admin);
+
         // Création des catégories
         $categories = [];
         $categoriesData = [
