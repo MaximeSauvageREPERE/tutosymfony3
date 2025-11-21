@@ -11,11 +11,12 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use Knp\Component\Pager\PaginatorInterface;
 
 final class ProduitController extends AbstractController
 {
     #[Route('/produit', name: 'app_produit')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
         $search = $request->query->get('search', '');
         
@@ -33,10 +34,19 @@ final class ProduitController extends AbstractController
                 ->orderBy('p.nom', 'ASC')
                 ->groupBy('p.id');
             
-            $produits = $qb->getQuery()->getResult();
+            $query = $qb->getQuery();
         } else {
-            $produits = $entityManager->getRepository(Produit::class)->findBy([], ['nom' => 'ASC']);
+            $query = $entityManager->getRepository(Produit::class)->createQueryBuilder('p')
+                ->orderBy('p.nom', 'ASC')
+                ->getQuery();
         }
+        
+        // Pagination : 12 produits par page
+        $produits = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            12
+        );
         
         return $this->render('produit/index.html.twig', [
             'produits' => $produits,
