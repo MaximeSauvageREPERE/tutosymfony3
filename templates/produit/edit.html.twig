@@ -36,6 +36,11 @@
                             {{ form_errors(form.active) }}
                         </div>
                         <div class="mb-3">
+                            {{ form_label(form.image) }}
+                            {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.image) }}
+                        </div>
+                        <div class="mb-3">
                             {{ form_label(form.categorie) }}
                             {{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(form.categorie) }}
