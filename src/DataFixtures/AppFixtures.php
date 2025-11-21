@@ -107,6 +107,8 @@ class AppFixtures extends Fixture
             $produit->setDescription($data['desc']);
             $produit->setPrix($data['prix']);
             $produit->setCategorie($categories[$data['cat']]);
+            $produit->setCreationdate(new \DateTime());
+            $produit->setActive(true);
             
             // Ajouter les tags
             foreach ($data['tags'] as $tagIndex) {
