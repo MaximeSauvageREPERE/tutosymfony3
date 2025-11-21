@@ -23,16 +23,13 @@ final class ProduitController extends AbstractController
         if ($search) {
             // Recherche avec DQL pour chercher dans le nom du produit, la catégorie et les tags
             $qb = $entityManager->createQueryBuilder();
-            $qb->select('p')
+            $qb->select('DISTINCT p')
                 ->from(Produit::class, 'p')
                 ->leftJoin('p.categorie', 'c')
                 ->leftJoin('p.tags', 't')
-                ->where('p.nom LIKE :search')
-                ->orWhere('c.nom LIKE :search')
-                ->orWhere('t.nom LIKE :search')
+                ->where('p.nom LIKE :search OR c.nom LIKE :search OR t.nom LIKE :search')
                 ->setParameter('search', '%' . $search . '%')
-                ->orderBy('p.nom', 'ASC')
-                ->groupBy('p.id');
+                ->orderBy('p.nom', 'ASC');
             
             $query = $qb->getQuery();
         } else {
