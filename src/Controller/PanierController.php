@@ -33,7 +33,7 @@ final class PanierController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'app_panier_add', requirements: ['id' => '\d+'])]
-    public function add(Produit $produit, EntityManagerInterface $entityManager): Response
+    public function add(Produit $produit, EntityManagerInterface $entityManager, Request $request): Response
     {
         $panier = $entityManager->getRepository(Panier::class)
             ->findOneBy(['statut' => 'en_cours'], ['createdAt' => 'DESC']);
@@ -65,7 +65,14 @@ final class PanierController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'Produit ajouté au panier');
-        return $this->redirectToRoute('app_panier');
+        
+        // Rediriger vers la page précédente ou la liste des produits
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+        
+        return $this->redirectToRoute('app_produit');
     }
 
     #[Route('/update/{id}', name: 'app_panier_update', methods: ['POST'], requirements: ['id' => '\d+'])]
