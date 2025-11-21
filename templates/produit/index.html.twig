@@ -1,3 +1,12 @@
+{# 
+   Page de liste des produits (produit/index.html.twig)
+   ------------------------------------------------------
+   - Affichage en grille de cards Bootstrap
+   - Barre de recherche serveur (nom, catégorie, tags)
+   - Pagination (12 produits par page)
+   - Boutons d'action selon le rôle (admin peut modifier/supprimer)
+   - Accessible sans authentification
+#}
 
 {% extends 'base.html.twig' %}
 
@@ -12,7 +21,12 @@
         {% endif %}
     </div>
     
-    {# Barre de recherche #}
+    {# 
+       Barre de recherche serveur
+       - Recherche dans nom produit, nom catégorie, nom tag
+       - Affichage du terme recherché
+       - Bouton effacer si recherche active
+    #}
     <div class="row mb-4">
         <div class="col-12">
             <form method="get" action="{{ path('app_produit') }}" class="card shadow">
@@ -43,6 +57,13 @@
         </div>
     </div>
     
+    {# 
+       Grille de produits
+       - Affichage en cards Bootstrap responsive (3 colonnes sur desktop)
+       - Image, nom, description, prix, catégorie, tags
+       - Boutons : voir, modifier (admin), supprimer (admin), ajouter au panier
+       - Message si aucun produit trouvé
+    #}
     <div class="row">
         {% for produit in produits %}
             <div class="col-md-4 mb-4">
@@ -88,7 +109,12 @@
         {% endfor %}
     </div>
     
-    {# Pagination #}
+    {# 
+       Pagination
+       - Gérée par KnpPaginatorBundle
+       - 12 produits par page
+       - Affichage dans une card centrée pour un rendu élégant
+    #}
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
             <div class="card shadow border-0">

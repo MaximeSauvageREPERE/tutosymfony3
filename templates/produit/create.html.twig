@@ -1,3 +1,11 @@
+{# 
+   Page de création d'un produit (produit/create.html.twig)
+   -----------------------------------------------------------
+   - Formulaire Bootstrap pour créer un nouveau produit
+   - Upload d'image possible (formats : JPEG, PNG, GIF, WebP, max 5MB)
+   - Sélection de catégorie
+   - Réservé aux admins (via #[IsGranted('ROLE_ADMIN')] dans le contrôleur)
+#}
 {% extends 'base.html.twig' %}
 
 {% block title %}Créer un produit{% endblock %}

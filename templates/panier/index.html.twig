@@ -1,3 +1,13 @@
+{# 
+   Page du panier (panier/index.html.twig)
+   -----------------------------------------
+   - Affichage du panier actif (statut 'en_cours')
+   - Tableau des produits avec quantité modifiable
+   - Récapitulatif avec total
+   - Actions : mettre à jour quantité, retirer produit, vider panier, valider commande
+   - Structure toujours visible même si panier vide
+   - Accessible sans authentification
+#}
 {% extends 'base.html.twig' %}
 
 {% block title %}Mon Panier{% endblock %}
@@ -15,6 +25,7 @@
 
     <div class="row">
         <div class="col-md-8">
+            {# Tableau des produits dans le panier, dans une card pour un rendu élégant #}
             <div class="card shadow">
                 <div class="card-body">
                     <table class="table table-bordered table-striped mb-0">
@@ -60,6 +71,7 @@
             </div>
         </div>
         <div class="col-md-4">
+            {# Récapitulatif avec total et boutons d'action #}
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Récapitulatif</h5>
