@@ -31,6 +31,9 @@ class Produit
     #[ORM\Column]
     private ?bool $active = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $image = null;
+
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?Category $categorie = null;
 
@@ -142,6 +145,18 @@ class Produit
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
         return $this;
     }
 }

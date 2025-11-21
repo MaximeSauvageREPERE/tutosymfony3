@@ -37,6 +37,12 @@ class ProduitType extends AbstractType
             ->add('active', null, [
                 'required' => false,
             ])
+            ->add('image', null, [
+                'attr' => [
+                    'placeholder' => 'URL de l\'image',
+                ],
+                'required' => false,
+            ])
             ->add('categorie', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'nom',
