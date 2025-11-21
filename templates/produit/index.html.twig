@@ -16,7 +16,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-lg border-0 rounded-4 produit-card position-relative overflow-hidden" style="transition: transform 0.2s;">
                     {% if produit.image %}
-                    <img src="{{ produit.image }}" class="card-img-top" alt="{{ produit.nom }}" style="height: 200px; object-fit: cover;">
+                    <img src="{{ '/images/produits/' ~ produit.image }}" class="card-img-top" alt="{{ produit.nom }}" style="height: 200px; object-fit: cover;">
                     {% endif %}
                     <div class="card-body bg-light bg-gradient">
                         <h5 class="card-title fw-bold text-primary">{{ produit.nom }}</h5>

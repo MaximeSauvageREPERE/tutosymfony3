@@ -6,8 +6,10 @@ use App\Entity\Category;
 use App\Entity\Produit;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProduitType extends AbstractType
 {
@@ -37,11 +39,23 @@ class ProduitType extends AbstractType
             ->add('active', null, [
                 'required' => false,
             ])
-            ->add('image', null, [
-                'attr' => [
-                    'placeholder' => 'URL de l\'image',
-                ],
+            ->add('imageFile', FileType::class, [
+                'label' => 'Image du produit',
                 'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                            'image/gif',
+                            'image/webp',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide (JPEG, PNG, GIF, WebP)',
+                    ])
+                ],
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Category::class,

@@ -9,7 +9,7 @@
         <div class="col-8">
             <div class="card shadow rounded-4">
                 <div class="card-body bg-light bg-gradient rounded-4">
-                    {{ form_start(form) }}
+                    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
                         <div class="mb-3">
                             {{ form_label(form.nom) }}
                             {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
@@ -36,9 +36,15 @@
                             {{ form_errors(form.active) }}
                         </div>
                         <div class="mb-3">
-                            {{ form_label(form.image) }}
-                            {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form.image) }}
+                            {{ form_label(form.imageFile) }}
+                            {% if produit.image %}
+                                <div class="mb-2">
+                                    <img src="{{ '/images/produits/' ~ produit.image }}" alt="{{ produit.nom }}" style="max-width: 200px; max-height: 200px;" class="img-thumbnail">
+                                </div>
+                            {% endif %}
+                            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.imageFile) }}
+                            <small class="form-text text-muted">Formats acceptés : JPEG, PNG, GIF, WebP (max 5MB)</small>
                         </div>
                         <div class="mb-3">
                             {{ form_label(form.categorie) }}

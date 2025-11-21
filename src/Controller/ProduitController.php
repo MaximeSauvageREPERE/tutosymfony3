@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Produit;
 use App\Form\ProduitType;
@@ -31,6 +32,24 @@ final class ProduitController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gérer l'upload d'image
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir').'/public/images/produits',
+                        $newFilename
+                    );
+                    $produit->setImage($newFilename);
+                } catch (FileException $e) {
+                    // Gérer l'exception si quelque chose se passe mal pendant l'upload
+                }
+            }
+
             $entityManager->persist($produit);
             $entityManager->flush();
             return $this->redirectToRoute('app_produit');
@@ -62,6 +81,24 @@ final class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gérer l'upload d'image
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                try {
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir').'/public/images/produits',
+                        $newFilename
+                    );
+                    $produit->setImage($newFilename);
+                } catch (FileException $e) {
+                    // Gérer l'exception si quelque chose se passe mal pendant l'upload
+                }
+            }
+
             $entityManager->flush();
             return $this->redirectToRoute('app_produit');
         }
