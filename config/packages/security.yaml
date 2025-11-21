@@ -22,6 +22,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 default_target_path: app_produit
+                always_use_default_target_path: true
                 enable_csrf: false
             logout:
                 path: app_logout
@@ -37,8 +38,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/produit$, roles: PUBLIC_ACCESS }
-        - { path: ^/produit/\d+$, roles: PUBLIC_ACCESS }
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/produit, roles: PUBLIC_ACCESS }
         - { path: ^/panier, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
 

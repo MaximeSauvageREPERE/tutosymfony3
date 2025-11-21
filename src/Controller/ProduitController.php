@@ -15,7 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 final class ProduitController extends AbstractController
 {
-    #[Route('/produit', name: 'app_produit')]
+    #[Route(['/', '/produit'], name: 'app_produit')]
     public function index(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
         $search = $request->query->get('search', '');
