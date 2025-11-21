@@ -18,9 +18,9 @@
                     <table class="table table-bordered table-hover table-striped align-middle mb-0">
                         <thead>
                             <tr>
-                                <th>Nom</th>
-                                <th>Produits associés</th>
-                                <th>Action</th>
+                                <th style="width: 10%">Nom</th>
+                                <th style="width: 70%">Produits associés</th>
+                                <th style="width: 20%;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,14 +35,16 @@
                                     {% endfor %}
                                 </td>
                                 <td>
-                                    <a href="{{ path('app_tag_show', {id: tag.id}) }}" class="btn btn-sm btn-info">Voir</a>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('app_tag_edit', {id: tag.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
-                                    <form method="post" action="{{ path('app_tag_delete', {id: tag.id}) }}" style="display:inline-block;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce tag ?');">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tag.id) }}">
-                                        <button class="btn btn-sm btn-danger">Supprimer</button>
-                                    </form>
-                                    {% endif %}
+                                    <div class="d-flex flex-row flex-nowrap gap-2 align-items-center">
+                                        <a href="{{ path('app_tag_show', {id: tag.id}) }}" class="btn btn-sm btn-info">Voir</a>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('app_tag_edit', {id: tag.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                                        <form method="post" action="{{ path('app_tag_delete', {id: tag.id}) }}" style="display:inline-block;" onsubmit="return confirm('Voulez-vous vraiment supprimer ce tag ?');" class="m-0 p-0">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tag.id) }}">
+                                            <button class="btn btn-sm btn-danger">Supprimer</button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
                                 </td>
                             </tr>
                         {% else %}
